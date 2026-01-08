@@ -7,21 +7,14 @@ class AppSettings:
     version: str
 
 @dataclass
-class DatabaseSettings:
-    host: str
-    port: int
-
-@dataclass
 class Settings:
     app: AppSettings
-    database: DatabaseSettings
 
     @classmethod
     def from_dict(cls, data: dict) -> 'Settings':
         """Maps a dictionary to the Settings model."""
         return cls(
             app=AppSettings(**data['app']),
-            database=DatabaseSettings(**data['database'])
         )
 
     @classmethod
@@ -38,14 +31,14 @@ class Settings:
             print(f"Critical: {filename} is not valid JSON.")
             raise
 
+
 def start_app():
     # Initialize the settings object on startup
     try:
         app_settings = Settings.load()
         
-        print(f"--- {app_settings.app.name} v{app_settings.app.version} ---")
-        print(f"Connecting to database at {app_settings.database.host}...")
-        
+        print(f"Starting {app_settings.app.name} v{app_settings.app.version}\n")
+
         # Your application logic continues here
         return app_settings
         
@@ -55,6 +48,5 @@ def start_app():
 
 if __name__ == "__main__":
     settings = start_app()
-    print("Starting", settings.app.name, "Version", settings.app.version)
 
 
