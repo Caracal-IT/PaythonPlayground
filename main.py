@@ -3,7 +3,6 @@ import time
 from config.settings import Settings
 from utils.task import Task
 
-
 def main():
     try:
         # Load settings from the config package
