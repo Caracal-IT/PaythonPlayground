@@ -1,4 +1,3 @@
-import threading
 import time
 
 from config.settings import Settings
@@ -13,10 +12,7 @@ def main():
         print(f"Starting {settings.app.name} v{settings.app.version}")
         print("Press Ctrl+C to stop.")
 
-        def do_ping():
-            print("ping")
-
-        task = Task(1.0, do_ping)
+        task = Task(1.0, lambda: print("ping"))
         task.start()
 
         while True:
