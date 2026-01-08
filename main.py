@@ -2,11 +2,8 @@ import threading
 import time
 
 from config.settings import Settings
+from utils.task import Task
 
-def ping_worker():
-    while True:
-        print("ping")
-        time.sleep(1)
 
 def main():
     try:
@@ -16,9 +13,11 @@ def main():
         print(f"Starting {settings.app.name} v{settings.app.version}")
         print("Press Ctrl+C to stop.")
 
-        thread = threading.Thread(target=ping_worker, daemon=True)
-        thread.start()
+        def do_ping():
+            print("ping")
 
+        task = Task(1.0, do_ping)
+        task.start()
 
         while True:
             time.sleep(1)
