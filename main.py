@@ -14,6 +14,7 @@ def main():
         settings = Settings.load()
 
         print(f"Starting {settings.app.name} v{settings.app.version}")
+        print("Press Ctrl+C to stop.")
 
         thread = threading.Thread(target=ping_worker, daemon=True)
         thread.start()
@@ -23,7 +24,7 @@ def main():
             time.sleep(1)
 
     except KeyboardInterrupt:
-        print("\nCtrl+C detected. Shutting down...")
+        print("\nShutting down...")
         exit(0)
     except Exception as e:
         print(f"Failed to start application: {e}")
