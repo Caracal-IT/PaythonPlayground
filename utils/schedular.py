@@ -2,6 +2,7 @@ import sched
 import time
 import threading
 
+from utils.context import Context
 from utils.task import Task
 
 class Job:
@@ -9,9 +10,11 @@ class Job:
         self.task = task
         self.job_id = job_id
         self.interval = interval
+        self.scheduler = scheduler
 
 class Schedular:
-    def __init__(self, interval):
+    def __init__(self, interval, ctx: Context):
+        self.ctx = ctx
         self.interval = interval
 
         self.jobs = {}
@@ -47,7 +50,7 @@ class Schedular:
 
         if task and isinstance(task, Task):
             try:
-                task.cancel()
+                task.cancel(self.ctx)
                 self.scheduler.cancel(task.event)
                 print(f"Job '{job_id}' cancelled.")
             except ValueError:
@@ -75,10 +78,10 @@ class Schedular:
 
         def run_task():
             # Run the actual execution in this background thread
-            task.execute()
+            task.execute(self.ctx)
 
             if interval > 0:
-                event = self.scheduler.enter(interval, 1, self.run_job, (task, interval, job_id))
+                event = self.scheduler.enter(interval, 1, self.__run_job__, (task, interval, job_id))
                 task.__set_event__(event)
 
                 self.active_jobs[job_id] = task

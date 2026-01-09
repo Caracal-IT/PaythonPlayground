@@ -2,6 +2,7 @@ import signal
 import sys
 import time
 
+from tasks.ping_task import PingTask
 from utils.application import Application
 from utils.task import LambdaTask
 
@@ -18,6 +19,7 @@ def main():
         app = Application("settings.json")
 
         app.register(LambdaTask(lambda: print("Ping 00001")), 1.0, "ping_task")
+        app.register(PingTask("My Ping Task"), 5.0, "ping_task2")
 
         def stop_ping():
             time.sleep(5)

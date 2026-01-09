@@ -1,17 +1,17 @@
 from config.settings import Settings
+from utils.context import Context
 from utils.task import Task
 
 class PingTask(Task):
-    def __init__(self, name, settings: Settings):
+    def __init__(self, name):
         super().__init__()
         self.name = name
-        self.settings = settings
 
-    def execute(self):
+    def execute(self, ctx: Context):
         """Execute the action"""
-        print(f"\nPinging {self.name} --> {self.settings.app.name}")
+        print(f"\nPinging {self.name} --> {ctx.settings.app.name}")
 
-    def cancel(self):
+    def cancel(self, ctx: Context):
         """Cancel the task"""
         print(f"Stop Pinging {self.name}")
 
