@@ -1,4 +1,3 @@
-from config.settings import Settings
 from utils.context import Context
 from utils.task import Task
 
