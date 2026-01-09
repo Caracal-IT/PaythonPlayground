@@ -33,8 +33,8 @@ def main():
 
         sched.start(LambdaTask(stop_ping), 0, "stop_ping_task")
 
-        sched.start(PingTask("example 1"), 1.0, "ping_task1")
-        sched.start(PingTask("example 2"), 2.0, "ping_task2")
+        sched.start(PingTask("example 1", settings), 1.0, "ping_task1")
+        sched.start(PingTask("example 2", settings), 2.0, "ping_task2")
 
         sched.wait()
     except KeyboardInterrupt:
