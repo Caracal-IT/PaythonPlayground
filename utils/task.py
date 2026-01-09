@@ -1,27 +1,38 @@
 import threading
+from abc import abstractmethod, ABC
+from threading import Event
 
-class Task:
-    def __init__(self, interval, action):
-        self.interval = interval
+
+class Task(ABC):
+    def __init__(self):
+        self.event = None
+
+    def __set_event__(self, event: Event):
+        self.event = event
+
+    @abstractmethod
+    def execute(self):
+        """Execute the action"""
+        pass
+
+    @abstractmethod
+    def cancel(self):
+        """Cancel the task"""
+        pass
+
+class LambdaTask(Task):
+    def __init__(self, action):
+        super().__init__()
         self.action = action
-        self.stop_event = threading.Event()
-        self.timer = None
 
-    def start(self):
-        """Starts the recursive timer."""
-        if not self.stop_event.is_set():
-            self.action()
-            # Schedule the next run
-            self.timer = threading.Timer(self.interval, self.start)
-            self.timer.daemon = True
-            self.timer.start()
+    def execute(self):
+        """Execute the action"""
+        self.action()
 
     def cancel(self):
-        """The 'Token' signal to stop all future tasks."""
-        self.stop_event.set()
-        if self.timer:
-            self.timer.cancel()
-        print("Scheduler: Cancelled.")
+        """Cancel the task"""
+        print("Cancelling job")
+        pass
 
     def __repr__(self):
-        return f"Task(interval={self.interval}, action={self.action.__name__})"
+        return f"LambdaTask(action={self.action.__name__})"

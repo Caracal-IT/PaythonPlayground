@@ -4,7 +4,9 @@ import time
 
 from config.settings import Settings
 from utils.schedular import Schedular
-from utils.task import Task
+from utils.task import LambdaTask
+from tasks.ping_task import PingTask
+
 
 def main():
     def handle_shutdown(signum, frame):
@@ -23,10 +25,16 @@ def main():
         print(f"Starting {settings.app.name} v{settings.app.version}")
         print("Press Ctrl+C to stop.")
 
-        sched.start(lambda: print("ping"), 1.0, "ping_task")
+        sched.start(LambdaTask(lambda: print("\nping")), 1.0, "ping_task")
 
-        #time.sleep(20)
-        #sched.stop("ping_task")
+        def stop_ping():
+            time.sleep(5)
+            sched.stop("ping_task")
+
+        sched.start(LambdaTask(stop_ping), 0, "stop_ping_task")
+
+        sched.start(PingTask("example 1"), 1.0, "ping_task1")
+        sched.start(PingTask("example 2"), 2.0, "ping_task2")
 
         sched.wait()
     except KeyboardInterrupt:
@@ -38,6 +46,8 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
 
 
 
