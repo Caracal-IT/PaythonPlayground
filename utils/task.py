@@ -1,4 +1,3 @@
-import threading
 from abc import abstractmethod, ABC
 from threading import Event
 
