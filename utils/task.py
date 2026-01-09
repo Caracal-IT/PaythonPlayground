@@ -6,9 +6,6 @@ class Task(ABC):
     def __init__(self):
         self.event = None
 
-    def __set_event__(self, event: Event):
-        self.event = event
-
     @abstractmethod
     def execute(self):
         """Execute the action"""
@@ -18,6 +15,9 @@ class Task(ABC):
     def cancel(self):
         """Cancel the task"""
         pass
+    
+    def __set_event__(self, event: Event):
+        self.event = event
 
 class LambdaTask(Task):
     def __init__(self, action):

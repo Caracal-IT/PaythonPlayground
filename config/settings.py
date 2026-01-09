@@ -13,6 +13,7 @@ class Settings:
     @classmethod
     def from_dict(cls, data: dict) -> 'Settings':
         """Maps a dictionary to the Settings model."""
+
         return cls(
             app=AppSettings(**data['app']),
         )
@@ -20,6 +21,7 @@ class Settings:
     @classmethod
     def load(cls, filename: str = 'settings.json') -> 'Settings':
         """Loads settings from a JSON file on startup."""
+
         try:
             with open(filename, 'r') as f:
                 data = json.load(f)
