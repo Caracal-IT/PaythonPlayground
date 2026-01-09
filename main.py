@@ -2,12 +2,8 @@ import signal
 import sys
 import time
 
-from config.settings import Settings
 from utils.application import Application
-from utils.schedular import Schedular
 from utils.task import LambdaTask
-from tasks.ping_task import PingTask
-
 
 def main():
     def handle_shutdown(signum, frame):
