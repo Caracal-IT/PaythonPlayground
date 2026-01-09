@@ -39,15 +39,6 @@ class Schedular:
         execution_thread = threading.Thread(target=run_task, daemon=True)
         execution_thread.start()
 
-        #task.execute()
-
-        # Schedule the next occurrence and store the 'token' (event)
-        #if interval > 0:
-        #    event = self.scheduler.enter(interval, 1, self.start, (task, interval, job_id))
-        #    task.__set_event__(event)
-
-        #    self.active_jobs[job_id] = task
-
     def stop(self, job_id):
         """Native way to cancel a specific job by its ID."""
         task = self.active_jobs.pop(job_id, None)
